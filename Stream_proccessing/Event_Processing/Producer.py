@@ -44,7 +44,7 @@ def on_delivery(err, msg, data):
 
 if __name__ == "__main__":
     # Produce data for the /api/artist endpoint (assuming artist IDs range from 1 to 9787)
-    produce_data("/api/artist", "artist_topic", 1, 9787)
+    produce_data("/api/artist", "artists_topic", 1, 9787)
 
     # Produce data for the /api/users endpoint (assuming user IDs range from 1 to 100000)
     produce_data("/api/users", "users_topic", 1, 100000)

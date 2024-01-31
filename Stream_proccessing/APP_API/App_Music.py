@@ -9,9 +9,8 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 # Load user data
 users_df = pd.read_json(
-    path_or_buf=r'C:\Users\Youcode\Desktop\Analyse_Des_Plateformes_De_Streaming_Musical\Data_Ingestion\DATA\user\users_data.json',
-    orient='records',
-    lines=True
+    path_or_buf=r'C:\Users\Youcode\Desktop\Analyse_Des_Plateformes_De_Streaming_Musical\repo\Analyse-des-Plateformes-de-Streaming-Musical\Data_Ingestion\DATA\user\users_data.json',
+    orient='records'
 )
 
 @cache.cached(timeout=60)
@@ -31,7 +30,7 @@ def get_user():
 
 # Load artist data
 artists_df = pd.read_json(
-    path_or_buf=r'C:\Users\Youcode\Desktop\Analyse_Des_Plateformes_De_Streaming_Musical\Data_Ingestion\DATA\artiste\artist_data_v.json',
+    path_or_buf=r'C:\Users\Youcode\Desktop\Analyse_Des_Plateformes_De_Streaming_Musical\repo\Analyse-des-Plateformes-de-Streaming-Musical\Data_Ingestion\DATA\artiste\artist_data_v.json',
     orient='records')
 
 @cache.cached(timeout=60)
