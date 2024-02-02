@@ -5,7 +5,7 @@ from azure.storage.blob import BlobServiceClient, BlobType
 import time
 
 # Define the list of table names in your database
-TABLE_NAMES = ['gender', 'genres']
+TABLE_NAMES = ['gender', 'genres', 'countries', 'Tags', 'artists', 'artist_tags', 'albums_artists', 'usere_app']
 
 SQL_SERVER_CONFIG = (
     "DRIVER={ODBC Driver 17 for SQL Server};"

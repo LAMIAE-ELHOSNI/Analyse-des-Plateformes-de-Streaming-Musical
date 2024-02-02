@@ -20,32 +20,40 @@ db = client[mongo_db_name]
 # Create Dash app
 app = Dash(__name__)
 
-# Define layout
-app.layout = html.Div(children=[
-    html.Div(children=[
-        html.H1("Music Dashboard", className='dashboard-header'),
-        html.Div(id='total-count-card', className='total-count-card'),
-    ], className='header-container'),
-    html.Div(children=[
-        html.Div(children=[
-            html.H2("Artist Information", className='section-header'),
-            dcc.Graph(id='top-10-artists-graph', className='graph'),
-            dcc.Graph(id='artist-gender-pie', className='graph'),
-            dcc.Graph(id='artist-country-pie', className='graph'),
-            html.Div(id='wordcloud', className='graph'),
-        ], className='section'),
-        html.Div(children=[
-            html.H2("User Information", className='section-header'),
-            dcc.Graph(id='user-gender-pie', className='graph'),
-            dcc.Graph(id='user-music-time-slot-bar', className='graph'),
-            dcc.Graph(id='user-country-map', className='graph'),
-        ], className='section'),
-    ], className='content-container'),
-    dcc.Interval(id='interval-component', interval=10*1000, n_intervals=0)
+# Define layout with Bootstrap
+app.layout = html.Div([
+    # Header
+    html.Div([
+        html.H1("Music Dashboard", className="dashboard-header"),
+        html.Div(id="total-count-card", className="total-count-card")
+    ], className="header-container"),
+
+    # Main content
+    html.Div([
+        # Artist Information
+        html.Div([
+            html.H2("Artist Information", className="section-header"),
+            dcc.Graph(id="top-10-artists-graph", className="graph"),
+            dcc.Graph(id="artist-gender-pie", className="graph"),
+            dcc.Graph(id="artist-country-pie", className="graph"),
+            html.Div(id="wordcloud", className="graph"),
+        ], className="section"),
+
+        # User Information
+        html.Div([
+            html.H2("User Information", className="section-header"),
+            dcc.Graph(id="user-gender-pie", className="graph"),
+            dcc.Graph(id="user-music-time-slot-bar", className="graph"),
+            dcc.Graph(id="user-country-map", className="graph"),
+        ], className="section"),
+    ], className="content-container"),
+
+    # Interval for updating data
+    dcc.Interval(id="interval-component", interval=10*1000, n_intervals=0)
 ])
 
 # Callback to update total count card
-@app.callback(Output('total-count-card', 'children'), [Input('interval-component', 'n_intervals')])
+@app.callback(Output("total-count-card", "children"), [Input("interval-component", "n_intervals")])
 def update_total_count_card(n):
     total_artists = db[collection_artists].count_documents({})
     total_users = db[collection_users].count_documents({})
@@ -78,9 +86,11 @@ def update_artist_gender_pie(n):
     genders = [artist['gender'] for artist in db[collection_artists].find()]
     gender_counts = Counter(genders)
     
+    # Convert dict_keys object to list
+    labels = list(gender_counts.keys())
+    values = list(gender_counts.values())
+    
     # Create pie chart
-    labels = gender_counts.keys()
-    values = gender_counts.values()
     trace = go.Pie(labels=labels, values=values)
     layout = go.Layout(title='Artist Gender Distribution', margin=dict(t=30, b=30, l=50, r=50))
     return {'data': [trace], 'layout': layout}
@@ -93,8 +103,8 @@ def update_artist_country_pie(n):
     country_counts = Counter(countries)
     
     # Create pie chart
-    labels = country_counts.keys()
-    values = country_counts.values()
+    labels = list(country_counts.keys())
+    values = list(country_counts.values())
     trace = go.Pie(labels=labels, values=values)
     layout = go.Layout(title='Artist Country Distribution', margin=dict(t=30, b=30, l=50, r=50))
     return {'data': [trace], 'layout': layout}
@@ -123,8 +133,8 @@ def update_user_gender_pie(n):
     gender_counts = Counter(genders)
     
     # Create pie chart
-    labels = gender_counts.keys()
-    values = gender_counts.values()
+    labels = list(gender_counts.keys())
+    values = list(gender_counts.values())
     trace = go.Pie(labels=labels, values=values)
     layout = go.Layout(title='User Gender Distribution', margin=dict(t=30, b=30, l=50, r=50))
     return {'data': [trace], 'layout': layout}
